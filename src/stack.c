@@ -31,20 +31,20 @@ STACK_NAME()* STACK_NAME(new)(const size_t initial_capacity)
     STACK_NAME()* st = malloc(sizeof(STACK_NAME()));
     st->size = 0;
     st->capacity = initial_capacity;
-    st->data = malloc(sizeof(STACK_ITEM_TYPE) * initial_capacity);
+    st->data = malloc(sizeof(STACK_TYPE) * initial_capacity);
 
     return st;
 }
 
 
-int STACK_NAME(push)(STACK_NAME()* st, const STACK_ITEM_TYPE item)
+int STACK_NAME(push)(STACK_NAME()* st, const STACK_TYPE item)
 {
     st->size += 1;
     if (st->size > st->capacity) {
         st->capacity = (size_t)(st->capacity * STACK_GROWTH_FACTOR);
 
-        STACK_ITEM_TYPE *old = st->data;
-        st->data = realloc(st->data, st->capacity * sizeof(STACK_ITEM_TYPE));
+        STACK_TYPE *old = st->data;
+        st->data = realloc(st->data, st->capacity * sizeof(STACK_TYPE));
         if (st->data == NULL) {
             st->data = old;
             fprintf(stderr, "Failed to realloc stack!\n");
@@ -57,10 +57,10 @@ int STACK_NAME(push)(STACK_NAME()* st, const STACK_ITEM_TYPE item)
 }
 
 
-STACK_ITEM_TYPE STACK_NAME(pop)(STACK_NAME()* st)
+STACK_TYPE STACK_NAME(pop)(STACK_NAME()* st)
 {
-    STACK_ITEM_TYPE item = st->data[st->size];
-    memset(&(st->data[st->size]), 0, sizeof(STACK_ITEM_TYPE));
+    STACK_TYPE item = st->data[st->size];
+    memset(&(st->data[st->size]), 0, sizeof(STACK_TYPE));
     st->size -= 1;
     return item;
 }
@@ -68,8 +68,8 @@ STACK_ITEM_TYPE STACK_NAME(pop)(STACK_NAME()* st)
 
 int STACK_NAME(compress)(STACK_NAME()* st)
 {
-    STACK_ITEM_TYPE *old = st->data;
-    st->data = realloc(st->data, st->size * sizeof(STACK_ITEM_TYPE));
+    STACK_TYPE *old = st->data;
+    st->data = realloc(st->data, st->size * sizeof(STACK_TYPE));
     if (st->data == NULL) {
         st->data = old;
         fprintf(stderr, "Failed to realloc stack!\n");
