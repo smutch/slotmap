@@ -21,16 +21,25 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 **********************************************************************/
 
-#include <stdio.h>
 #include <stdlib.h>
-#include "slotmap.h"
+#include "stack.h"
 
-sm_object_id sm_create_object()
+Stack* STACK_FUNC(new)(const size_t initial_capacity)
 {
-    return EXIT_SUCCESS;
+    Stack* st = malloc(sizeof(Stack));
+    st->size = 0;
+    st->capacity = initial_capacity;
+    st->data = malloc(sizeof(STACK_ITEM_TYPE) * initial_capacity);
+
+    return st;
 }
 
-Object* sm_get_object()
+void STACK_FUNC(push)(Stack *st, STACK_ITEM_TYPE item)
 {
-    return NULL;
+}
+
+STACK_ITEM_TYPE STACK_FUNC(pop)(Stack* st)
+{
+    STACK_ITEM_TYPE dummy = {6};
+    return dummy;
 }

@@ -13,6 +13,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 set(CMAKE_C_FLAGS_RELEASE "-O3 -march=native")
 
 set(SRC
+    src/stack.h
+    src/stack.c
     src/slotmap.h
     src/slotmap.c
     )
