@@ -21,6 +21,10 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 **********************************************************************/
 
+// This code is based on
+// https://github.com/seanmiddleditch/TinyExperiments/blob/master/SlotMapExample/Main.cpp
+// Credit: seanmiddleditch
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "slotmap.h"
