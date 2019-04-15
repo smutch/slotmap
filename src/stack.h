@@ -43,8 +43,9 @@ typedef struct STACK_NAME() {
 } STACK_NAME();
 
 STACK_NAME()* STACK_NAME(new)(const size_t initial_capacity);
-void STACK_NAME(push)(STACK_NAME()* st, const STACK_ITEM_TYPE item);
+int STACK_NAME(push)(STACK_NAME()* st, const STACK_ITEM_TYPE item);
 STACK_ITEM_TYPE STACK_NAME(pop)(STACK_NAME()* st);
+int STACK_NAME(compress)(STACK_NAME()* st);
 void STACK_NAME(destroy)(STACK_NAME()* st);
 
 #endif
