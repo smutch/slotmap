@@ -21,12 +21,12 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 **********************************************************************/
 
+#ifndef STACK_H
+#define STACK_H
+
 #ifndef STACK_TYPE
 #define STACK_TYPE int
 #endif
-
-#ifndef STACK_H
-#define STACK_H
 
 #define STACK_GROWTH_FACTOR 1.5
 
