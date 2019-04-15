@@ -22,11 +22,12 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 **********************************************************************/
 
 #include <stdlib.h>
+#include <string.h>
 #include "stack.h"
 
-Stack* STACK_FUNC(new)(const size_t initial_capacity)
+STACK_NAME()* STACK_NAME(new)(const size_t initial_capacity)
 {
-    Stack* st = malloc(sizeof(Stack));
+    STACK_NAME()* st = malloc(sizeof(STACK_NAME()));
     st->size = 0;
     st->capacity = initial_capacity;
     st->data = malloc(sizeof(STACK_ITEM_TYPE) * initial_capacity);
@@ -34,12 +35,34 @@ Stack* STACK_FUNC(new)(const size_t initial_capacity)
     return st;
 }
 
-void STACK_FUNC(push)(Stack *st, STACK_ITEM_TYPE item)
+
+void STACK_NAME(push)(STACK_NAME()* st, const STACK_ITEM_TYPE item)
 {
+    st->size += 1;
+    if (st->size > st->capacity) {
+        st->capacity = (size_t)(st->capacity * STACK_GROWTH_FACTOR);
+        st->data = reallocf(st->data, st->capacity * sizeof(STACK_ITEM_TYPE));
+    }
+
+    st->data[st->size] = item;
 }
 
-STACK_ITEM_TYPE STACK_FUNC(pop)(Stack* st)
+
+STACK_ITEM_TYPE STACK_NAME(pop)(STACK_NAME()* st)
 {
-    STACK_ITEM_TYPE dummy = {6};
-    return dummy;
+    STACK_ITEM_TYPE item = st->data[st->size];
+    memset(&(st->data[st->size]), 0, sizeof(STACK_ITEM_TYPE));
+    st->size -= 1;
+    return item;
+}
+
+
+void STACK_NAME(destroy)(STACK_NAME()* st)
+{
+    // free the data
+    free(st->data);
+    st->data = NULL;
+
+    // free the stack itself
+    free(st);
 }

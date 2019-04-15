@@ -21,25 +21,30 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 **********************************************************************/
 
-#ifndef STACK_H
-#define STACK_H
-
 #ifndef STACK_ITEM_TYPE
 #define STACK_ITEM_TYPE int
 #endif
 
-#define STACK_FUNC(name) STACK_ITEM_TYPE_stack_##name
+#ifndef STACK_H
+#define STACK_H
+
+#define STACK_GROWTH_FACTOR 1.5
+
+#define CONCAT_I(a, b) a##_##b
+#define CONCAT(a, b) CONCAT_I(a, b)
+#define STACK_NAME(x) CONCAT(CONCAT(STACK_ITEM_TYPE, stack), x)
 
 #include <stddef.h>
 
-typedef struct stack {
+typedef struct STACK_NAME() {
     STACK_ITEM_TYPE* data;
     size_t size;
     size_t capacity;
-} Stack;
+} STACK_NAME();
 
-Stack* STACK_FUNC(new)(size_t initial_capacity);
-void STACK_FUNC(push)(Stack* st, STACK_ITEM_TYPE item);
-STACK_ITEM_TYPE STACK_FUNC(pop)(Stack* st);
+STACK_NAME()* STACK_NAME(new)(const size_t initial_capacity);
+void STACK_NAME(push)(STACK_NAME()* st, const STACK_ITEM_TYPE item);
+STACK_ITEM_TYPE STACK_NAME(pop)(STACK_NAME()* st);
+void STACK_NAME(destroy)(STACK_NAME()* st);
 
 #endif
