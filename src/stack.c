@@ -52,6 +52,14 @@ Stack stack_new(const size_t element_size, const size_t initial_capacity)
 }
 
 
+/**
+ * Push a new item to the end of the stack.
+ * 
+ * @param stack   Pointer to the stack
+ * @param item    Pointer to the item (must have size equal to `element_size`)
+ * 
+ * @returns       0 if successful, -1 otherwise
+ */
 int stack_push(Stack* st, void* item)
 {
     st->size += 1;
@@ -72,12 +80,28 @@ int stack_push(Stack* st, void* item)
 }
 
 
+/**
+ * Pop an item from the end of the stack and remove it.
+ * 
+ * @param stack   Pointer to the stack
+ * 
+ * @returns       Pointer to the popped item which should be dereferenced
+ *                or memcpy'd IMMEDIATELY by the user as the validity of the pointer can
+ *                no longer be gauranteed after any other stack methos is called.
+ */
 void* stack_pop(Stack* st)
 {
     return st->data + st->element_size * (st->size--);
 }
 
 
+/**
+ * Compress the stack to free unused memory.
+ * 
+ * @param stack   Pointer to the stack
+ * 
+ * @returns       0 if successful, -1 otherwise
+ */
 int stack_compress(Stack* st)
 {
     void *old = st->data;
@@ -93,6 +117,11 @@ int stack_compress(Stack* st)
 }
 
 
+/**
+ * Destroy the stack and free the data.
+ * 
+ * @param stack   Pointer to the stack
+ */
 void stack_destroy(Stack* st)
 {
     st->size = 0;

@@ -1,4 +1,4 @@
-/**********************************************************************
+/*=====================================================================
 A basic slot map for C
 Copyright © 2019 Simon Mutch
 
@@ -19,19 +19,30 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-**********************************************************************/
+=====================================================================*/
 
 #ifndef STACK_H
 #define STACK_H
 
-#define STACK_GROWTH_FACTOR 1.5
-
 #include <stddef.h>
 
+/**
+ * The factor by which the number of elements in the stack is increased if
+ * capacity is reached.
+ */
+#define STACK_GROWTH_FACTOR 1.5
+
+/**
+ * The Stack structure.
+ */
 typedef struct stack {
+    /** The data */
     void* data;
+    /** The size of each element in the stack (from `sizeof()`) */
     size_t element_size;
+    /** The current size of the stack */
     size_t size;
+    /** The maximum capacity with the current memory allocation */
     size_t capacity;
 } Stack;
 
