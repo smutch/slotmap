@@ -27,4 +27,5 @@ set_property(TARGET slotmap PROPERTY C_STANDARD 99)
 #  TESTS  #
 ###########
 
+enable_testing()
 add_subdirectory(tests)

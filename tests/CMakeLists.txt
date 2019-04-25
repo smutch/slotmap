@@ -12,11 +12,18 @@ find_library(CMOCKA_LIBRARY
     )
 
 set(TESTS
-    test_slotmap.c
+    # test_slotmap.c
+    test_stack.c
     )
 
-add_executable(test_slotmap ${TESTS})
-set_property(TARGET test_slotmap PROPERTY C_STANDARD 99)
+# add_executable(test_slotmap ${TESTS})
+# set_property(TARGET test_slotmap PROPERTY C_STANDARD 99)
+# target_include_directories(test_slotmap PRIVATE ${CMOCKA_INCLUDE_DIR} "${CMAKE_SOURCE_DIR}/src")
+# target_link_libraries(test_slotmap PRIVATE ${CMOKA_LIBRARY} slotmap)
 
-target_include_directories(test_slotmap PRIVATE ${CMOCKA_INCLUDE_DIR})
-target_link_libraries(test_slotmap PRIVATE ${CMOKA_LIBRARY})
+add_executable(test_stack ${TESTS})
+set_property(TARGET test_stack PROPERTY C_STANDARD 99)
+target_include_directories(test_stack PRIVATE ${CMOCKA_INCLUDE_DIR} "${CMAKE_SOURCE_DIR}/src")
+target_link_libraries(test_stack PRIVATE ${CMOCKA_LIBRARY} slotmap)
+
+add_test(stack "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test_stack")
