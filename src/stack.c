@@ -62,8 +62,7 @@ Stack stack_new(const size_t element_size, const size_t initial_capacity)
  */
 int stack_push(Stack* st, void* item)
 {
-    st->size += 1;
-    if (st->size > st->capacity) {
+    if ((st->size+1) > st->capacity) {
         st->capacity = (size_t)(st->capacity * STACK_GROWTH_FACTOR);
 
         void* old = st->data;
@@ -75,7 +74,7 @@ int stack_push(Stack* st, void* item)
         }
     }
 
-    memcpy(st->data + st->element_size * st->size, item, st->element_size);
+    memcpy(st->data + st->element_size * (st->size++), item, st->element_size);
     return 0;
 }
 
