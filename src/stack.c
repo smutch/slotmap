@@ -1,4 +1,4 @@
-/**********************************************************************
+/*=====================================================================
 A basic slot map for C
 Copyright © 2019 Simon Mutch
 
@@ -19,13 +19,21 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-**********************************************************************/
+=====================================================================*/
 
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include "stack.h"
 
+/**
+ * Create a new stack.
+ * 
+ * @param element_size      The size of each element as returned by `sizeof()`
+ * @param initial_capacity  The initial capacity
+ * 
+ * @returns The new stack
+ */
 Stack stack_new(const size_t element_size, const size_t initial_capacity)
 {
     Stack st;

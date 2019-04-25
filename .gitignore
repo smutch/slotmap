@@ -1,6 +1,10 @@
 # Build
 build*/
 
+# Docs
+doc/_build
+**/*.pyc
+
 # Tags
 **/*.tags
 
