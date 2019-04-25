@@ -26,25 +26,32 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdio.h>
 #include "stack.h"
 
-STACK_NAME()* STACK_NAME(new)(const size_t initial_capacity)
+Stack stack_new(const size_t element_size, const size_t initial_capacity)
 {
-    STACK_NAME()* st = malloc(sizeof(STACK_NAME()));
-    st->size = 0;
-    st->capacity = initial_capacity;
-    st->data = malloc(sizeof(STACK_TYPE) * initial_capacity);
+    Stack st;
+    st.element_size = element_size;
+    st.size = 0;
+    st.capacity = initial_capacity;
+
+    st.data = calloc(initial_capacity, element_size);
+    if (st.data == NULL) {
+        fprintf(stderr, "Failed to malloc stack!\n");
+        st.element_size = 0;
+        st.capacity = 0;
+    }
 
     return st;
 }
 
 
-int STACK_NAME(push)(STACK_NAME()* st, const STACK_TYPE item)
+int stack_push(Stack* st, void* item)
 {
     st->size += 1;
     if (st->size > st->capacity) {
         st->capacity = (size_t)(st->capacity * STACK_GROWTH_FACTOR);
 
-        STACK_TYPE *old = st->data;
-        st->data = realloc(st->data, st->capacity * sizeof(STACK_TYPE));
+        void* old = st->data;
+        st->data = realloc(st->data, st->capacity * st->element_size);
         if (st->data == NULL) {
             st->data = old;
             fprintf(stderr, "Failed to realloc stack!\n");
@@ -52,24 +59,21 @@ int STACK_NAME(push)(STACK_NAME()* st, const STACK_TYPE item)
         }
     }
 
-    st->data[st->size] = item;
+    memcpy(st->data + st->element_size * st->size, item, st->element_size);
     return 0;
 }
 
 
-STACK_TYPE STACK_NAME(pop)(STACK_NAME()* st)
+void* stack_pop(Stack* st)
 {
-    STACK_TYPE item = st->data[st->size];
-    memset(&(st->data[st->size]), 0, sizeof(STACK_TYPE));
-    st->size -= 1;
-    return item;
+    return st->data + st->element_size * (st->size--);
 }
 
 
-int STACK_NAME(compress)(STACK_NAME()* st)
+int stack_compress(Stack* st)
 {
-    STACK_TYPE *old = st->data;
-    st->data = realloc(st->data, st->size * sizeof(STACK_TYPE));
+    void *old = st->data;
+    st->data = realloc(st->data, st->size * st->element_size);
     if (st->data == NULL) {
         st->data = old;
         fprintf(stderr, "Failed to realloc stack!\n");
@@ -81,12 +85,13 @@ int STACK_NAME(compress)(STACK_NAME()* st)
 }
 
 
-void STACK_NAME(destroy)(STACK_NAME()* st)
+void stack_destroy(Stack* st)
 {
+    st->size = 0;
+    st->element_size = 0;
+    st->capacity = 0;
+
     // free the data
     free(st->data);
     st->data = NULL;
-
-    // free the stack itself
-    free(st);
 }

@@ -24,28 +24,21 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef STACK_H
 #define STACK_H
 
-#ifndef STACK_TYPE
-#define STACK_TYPE int
-#endif
-
 #define STACK_GROWTH_FACTOR 1.5
-
-#define CONCAT_I(a, b) a##_##b
-#define CONCAT(a, b) CONCAT_I(a, b)
-#define STACK_NAME(x) CONCAT(CONCAT(STACK_TYPE, stack), x)
 
 #include <stddef.h>
 
-typedef struct STACK_NAME() {
-    STACK_TYPE* data;
+typedef struct stack {
+    void* data;
+    size_t element_size;
     size_t size;
     size_t capacity;
-} STACK_NAME();
+} Stack;
 
-STACK_NAME()* STACK_NAME(new)(const size_t initial_capacity);
-int STACK_NAME(push)(STACK_NAME()* st, const STACK_TYPE item);
-STACK_TYPE STACK_NAME(pop)(STACK_NAME()* st);
-int STACK_NAME(compress)(STACK_NAME()* st);
-void STACK_NAME(destroy)(STACK_NAME()* st);
+Stack stack_new(const size_t element_size, const size_t initial_capacity);
+int stack_push(Stack* st, void* item);
+void* stack_pop(Stack* st);
+int stack_compress(Stack* st);
+void stack_destroy(Stack* st);
 
 #endif
