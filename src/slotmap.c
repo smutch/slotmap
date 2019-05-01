@@ -29,12 +29,12 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdlib.h>
 #include "slotmap.h"
 
-sm_object_id sm_create_object()
+sm_item_id sm_create_object()
 {
     return EXIT_SUCCESS;
 }
 
-Object* sm_get_object()
+SMItem* sm_get_object()
 {
     return NULL;
 }

@@ -1,4 +1,4 @@
-/**********************************************************************
+/*=====================================================================
 A basic slot map for C
 Copyright © 2019 Simon Mutch
 
@@ -19,22 +19,22 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-**********************************************************************/
+=====================================================================*/
 
 #ifndef SLOTMAP_H
 #define SLOTMAP_H
 
 #include <stdio.h>
 
-typedef long long sm_object_id;
+typedef long long sm_item_id;
 const size_t sm_chunk_size = 512;
 
-typedef struct object {
-    sm_object_id id;
+typedef struct item {
+    sm_item_id id;
     double value;
-} Object;
+} SMItem;
 
-sm_object_id sm_create_object(void);
-Object* sm_get_object(void);
+sm_item_id sm_create_item(void);
+SMItem* sm_get_item(void);
 
 #endif
