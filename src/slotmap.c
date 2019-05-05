@@ -27,15 +27,19 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "slotmap.h"
 #include "stack.h"
+#include "slotmap.h"
 
 
 Slotmap sm_new()
 {
     Slotmap sm;
-    sm.free_stack = stack_new(sizeof(sm_item_id), sm_chunk_size);
-    sm.item_table = calloc(sm_chunk_size, sizeof(SMItem));
+    sm.free_stack = stack_new(sizeof(sm_item_id), SM_CHUNK_SIZE);
+    sm.item_table = calloc(SM_CHUNK_SIZE, sizeof(SMItem));
+
+    if (sm.item_table == NULL)
+        fprintf(stderr, "Failed to malloc slotmap item table!\n");
+
     return sm;
 }
 
@@ -53,4 +57,5 @@ void sm_destroy(Slotmap* sm)
 {
     stack_destroy(&sm->free_stack);
     free(sm->item_table);
+    sm->item_table = NULL;
 }

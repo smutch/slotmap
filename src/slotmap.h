@@ -27,8 +27,8 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdio.h>
 #include "stack.h"
 
+#define SM_CHUNK_SIZE 512
 typedef long long sm_item_id;
-const size_t sm_chunk_size = 512;
 
 typedef struct item {
     sm_item_id id;

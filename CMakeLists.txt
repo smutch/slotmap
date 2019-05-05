@@ -10,7 +10,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
 # compile flags
-set(CMAKE_C_FLAGS_RELEASE "-O3 -march=native")
+set(CMAKE_C_FLAGS_RELEASE "-O3 -march=native -ffast-math")
+set(CMAKE_C_FLAGS_RELEASE "-O0 -fsanitize=memory")
 
 set(SRC
     src/stack.h
