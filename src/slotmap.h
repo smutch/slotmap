@@ -27,7 +27,9 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdio.h>
 #include "stack.h"
 
+/** The size to grow the slot map by each time it grows. */
 #define SM_CHUNK_SIZE 512
+
 typedef long long sm_item_id;
 
 typedef struct item {

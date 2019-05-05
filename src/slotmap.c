@@ -1,4 +1,4 @@
-/**********************************************************************
+/*=====================================================================
 A basic slot map for C
 Copyright © 2019 Simon Mutch
 
@@ -19,7 +19,7 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-**********************************************************************/
+=====================================================================*/
 
 // This code is based on
 // https://github.com/seanmiddleditch/TinyExperiments/blob/master/SlotMapExample/Main.cpp
@@ -31,6 +31,12 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "slotmap.h"
 
 
+/**
+ * Create a new slot map.
+ * 
+ * @returns The new slot map initialized with an item table of size
+ *          :macro:`SM_CHUNK_SIZE`.
+ */
 Slotmap sm_new()
 {
     Slotmap sm;
@@ -43,6 +49,7 @@ Slotmap sm_new()
     return sm;
 }
 
+
 sm_item_id sm_create_object()
 {
     return EXIT_SUCCESS;
@@ -53,6 +60,12 @@ SMItem* sm_get_object()
     return NULL;
 }
 
+
+/**
+ * Destroy the slot map and free associated memory.
+ * 
+ * @param sm   Pointer to the slot map
+ */
 void sm_destroy(Slotmap* sm)
 {
     stack_destroy(&sm->free_stack);

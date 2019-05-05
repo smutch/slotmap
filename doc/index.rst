@@ -6,6 +6,7 @@ Welcome to Slot map's documentation!
    :caption: Contents:
 
    stack
+   slotmap
 
 
 Indices and tables
