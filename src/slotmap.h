@@ -25,6 +25,7 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define SLOTMAP_H
 
 #include <stdio.h>
+#include "stack.h"
 
 typedef long long sm_item_id;
 const size_t sm_chunk_size = 512;
@@ -34,7 +35,14 @@ typedef struct item {
     double value;
 } SMItem;
 
+typedef struct slotmap {
+    Stack free_stack;
+    SMItem* item_table; 
+} Slotmap;
+
+Slotmap sm_new(void);
 sm_item_id sm_create_item(void);
 SMItem* sm_get_item(void);
+void sm_destroy(Slotmap* sm);
 
 #endif

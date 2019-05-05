@@ -28,6 +28,16 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdio.h>
 #include <stdlib.h>
 #include "slotmap.h"
+#include "stack.h"
+
+
+Slotmap sm_new()
+{
+    Slotmap sm;
+    sm.free_stack = stack_new(sizeof(sm_item_id), sm_chunk_size);
+    sm.item_table = calloc(sm_chunk_size, sizeof(SMItem));
+    return sm;
+}
 
 sm_item_id sm_create_object()
 {
@@ -37,4 +47,10 @@ sm_item_id sm_create_object()
 SMItem* sm_get_object()
 {
     return NULL;
+}
+
+void sm_destroy(Slotmap* sm)
+{
+    stack_destroy(&sm->free_stack);
+    free(sm->item_table);
 }
