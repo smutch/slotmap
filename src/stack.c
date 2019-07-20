@@ -65,6 +65,9 @@ int stack_push(Stack* st, void* item)
     if ((st->size+1) > st->capacity) {
         st->capacity = (size_t)(st->capacity * STACK_GROWTH_FACTOR);
 
+        if (st->capacity < 2)
+            st->capacity = 2;
+
         void* old = st->data;
         st->data = realloc(st->data, st->capacity * st->element_size);
         if (st->data == NULL) {
@@ -74,7 +77,7 @@ int stack_push(Stack* st, void* item)
         }
     }
 
-    memcpy(st->data + st->element_size * (st->size++), item, st->element_size);
+    memcpy((char *)st->data + st->element_size * (st->size++), (char *)item, st->element_size);
     return 0;
 }
 

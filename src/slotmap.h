@@ -39,11 +39,11 @@ typedef struct item {
 
 typedef struct slotmap {
     Stack free_stack;
-    SMItem* item_table; 
+    Stack chunk_stack; 
 } Slotmap;
 
 Slotmap sm_new(void);
-sm_item_id sm_create_item(void);
+sm_item_id sm_create_item(Slotmap* sm);
 SMItem* sm_get_item(void);
 void sm_destroy(Slotmap* sm);
 

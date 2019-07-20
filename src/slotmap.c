@@ -34,28 +34,38 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /**
  * Create a new slot map.
  * 
- * @returns The new slot map initialized with an item table of size
- *          :macro:`SM_CHUNK_SIZE`.
+ * @returns The new slot map.
  */
 Slotmap sm_new()
 {
     Slotmap sm;
-    sm.free_stack = stack_new(sizeof(sm_item_id), SM_CHUNK_SIZE);
-    sm.item_table = calloc(SM_CHUNK_SIZE, sizeof(SMItem));
-
-    if (sm.item_table == NULL)
-        fprintf(stderr, "Failed to malloc slotmap item table!\n");
+    sm.free_stack = stack_new(sizeof(sm_item_id), 0);
+    sm.chunk_stack = stack_new(__SIZEOF_POINTER__, 0);
 
     return sm;
 }
 
 
-sm_item_id sm_create_object()
+sm_item_id sm_create_item(Slotmap* sm)
 {
-    return EXIT_SUCCESS;
+
+    if (sm->free_stack.size == 0) {
+        // TODO(safety): Check calloc and warn if fail
+        SMItem* chunk = calloc(SM_CHUNK_SIZE, sizeof(SMItem));
+
+        // TODO(reading): Why reversed order here? Better memory access?
+        for(int ii = SM_CHUNK_SIZE-1; ii >= 0; --ii) {
+            chunk[ii].id = sm->chunk_stack.size * SM_CHUNK_SIZE + ii;
+            stack_push(&(sm->free_stack), &(chunk[ii].id));
+        }
+
+        stack_push(&(sm->chunk_stack), &chunk);
+    }
+
+    return *(sm_item_id *)stack_pop(&sm->free_stack);
 }
 
-SMItem* sm_get_object()
+SMItem* sm_get_item()
 {
     return NULL;
 }
@@ -69,6 +79,9 @@ SMItem* sm_get_object()
 void sm_destroy(Slotmap* sm)
 {
     stack_destroy(&sm->free_stack);
-    free(sm->item_table);
-    sm->item_table = NULL;
+
+    for (size_t ii=0; ii < sm->chunk_stack.size; ++ii)
+        free(((SMItem **)sm->chunk_stack.data)[ii]);
+
+    stack_destroy(&sm->chunk_stack);
 }
