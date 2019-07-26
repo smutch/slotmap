@@ -27,11 +27,16 @@ void test_destroy_sm(void **state)
 void test_create_item(void **state)
 {
     Slotmap sm = sm_new();
-    sm_item_id id = sm_create_item(&sm);
 
+    sm_item_id id = sm_create_item(&sm);
     assert_int_equal(id, 0);
 
-    // TODO(test): Finish test...
+    id = sm_create_item(&sm);
+    assert_int_equal(id, 1);
+
+    sm_create_item(&sm);
+    id = sm_create_item(&sm);
+    assert_int_equal(id, 3);
 
     sm_destroy(&sm);
 }

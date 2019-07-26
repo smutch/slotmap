@@ -93,7 +93,7 @@ int stack_push(Stack* st, void* item)
  */
 void* stack_pop(Stack* st)
 {
-    return st->data + st->element_size * (st->size--);
+    return (char *)st->data + st->element_size * (--st->size);
 }
 
 
