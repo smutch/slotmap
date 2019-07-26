@@ -46,6 +46,13 @@ Slotmap sm_new()
 }
 
 
+/**
+ * Create a 'new' item in the slotmap.  We allocate a new chunk if necessary, or simply return the next free item.
+ * 
+ * @param sm   Pointer to the slot map
+ *
+ * @returns    Item ID
+ */
 sm_item_id sm_create_item(Slotmap* sm)
 {
 
@@ -65,6 +72,15 @@ sm_item_id sm_create_item(Slotmap* sm)
     return *(sm_item_id *)stack_pop(&sm->free_stack);
 }
 
+
+/**
+ * Get an item from the slotmap.
+ * 
+ * @param sm   Pointer to the slot map
+ * @param id   Item ID to retrieve
+ *
+ * @returns    Pointer to item if successful, NULL otherwise.
+ */
 SMItem* sm_get_item(Slotmap* sm, sm_item_id id)
 {
     SMItem* item = (SMItem *)&sm->chunk_stack.data[(id & 0xFFFFFFFF) / SM_CHUNK_SIZE] + ((id & 0xFFFFFFFF) % SM_CHUNK_SIZE);
