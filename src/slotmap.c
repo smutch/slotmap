@@ -59,15 +59,16 @@ sm_item_id sm_create_item(Slotmap* sm)
             stack_push(&(sm->free_stack), &(chunk[ii].id));
         }
 
-        stack_push(&(sm->chunk_stack), &chunk);
+        stack_push(&(sm->chunk_stack), chunk);
     }
 
     return *(sm_item_id *)stack_pop(&sm->free_stack);
 }
 
-SMItem* sm_get_item()
+SMItem* sm_get_item(Slotmap* sm, sm_item_id id)
 {
-    return NULL;
+    SMItem* item = (SMItem *)&sm->chunk_stack.data[(id & 0xFFFFFFFF) / SM_CHUNK_SIZE] + ((id & 0xFFFFFFFF) % SM_CHUNK_SIZE);
+    return item->id != id ? NULL : item;
 }
 
 

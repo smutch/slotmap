@@ -41,11 +41,27 @@ void test_create_item(void **state)
     sm_destroy(&sm);
 }
 
+void test_get_item(void **state)
+{
+    Slotmap sm = sm_new();
+
+    sm_item_id id = sm_create_item(&sm);
+    SMItem* item = sm_get_item(&sm, id);
+    assert_int_equal(item->id, id);
+
+    item->value = 50;
+    item = sm_get_item(&sm, id);
+    assert_float_equal(item->value, 50, 1e-8);
+
+    sm_destroy(&sm);
+}
+
 int main(void)
 {
     const struct CMUnitTest tests[] = {
         cmocka_unit_test(test_new_sm),
         cmocka_unit_test(test_create_item),
+        cmocka_unit_test(test_get_item),
         cmocka_unit_test(test_destroy_sm)
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
