@@ -39,7 +39,7 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 Slotmap sm_new()
 {
     Slotmap sm;
-    sm.free_stack = stack_new(sizeof(sm_item_id), 0);
+    sm.free_stack = stack_new(sizeof(int), 0);
     sm.chunk_stack = stack_new(__SIZEOF_POINTER__, 0);
 
     return sm;
@@ -51,25 +51,25 @@ Slotmap sm_new()
  * 
  * @param sm   Pointer to the slot map
  *
- * @returns    Item ID
+ * @returns    Pointer to new item
  */
-sm_item_id sm_create_item(Slotmap* sm)
+SMItem* sm_create_item(Slotmap* sm)
 {
 
     if (sm->free_stack.size == 0) {
         // TODO(safety): Check calloc and warn if fail
         SMItem* chunk = calloc(SM_CHUNK_SIZE, sizeof(SMItem));
 
-        // TODO(reading): Why reversed order here? Better memory access?
         for(int ii = SM_CHUNK_SIZE-1; ii >= 0; --ii) {
             chunk[ii].id = sm->chunk_stack.size * SM_CHUNK_SIZE + ii;
             stack_push(&(sm->free_stack), &(chunk[ii].id));
         }
 
-        stack_push(&(sm->chunk_stack), chunk);
+        stack_push(&(sm->chunk_stack), &chunk);
     }
 
-    return *(sm_item_id *)stack_pop(&sm->free_stack);
+    int next_free = *(int *)stack_pop(&(sm->free_stack));
+    return &((SMItem**)(sm->chunk_stack.data))[next_free / SM_CHUNK_SIZE][next_free % SM_CHUNK_SIZE];
 }
 
 
@@ -83,8 +83,23 @@ sm_item_id sm_create_item(Slotmap* sm)
  */
 SMItem* sm_get_item(Slotmap* sm, sm_item_id id)
 {
-    SMItem* item = (SMItem *)&sm->chunk_stack.data[(id & 0xFFFFFFFF) / SM_CHUNK_SIZE] + ((id & 0xFFFFFFFF) % SM_CHUNK_SIZE);
+    SMItem* item = ((SMItem **)(sm->chunk_stack.data))[(id & 0xFFFFFFFF) / SM_CHUNK_SIZE] + ((id & 0xFFFFFFFF) % SM_CHUNK_SIZE);
     return item->id != id ? NULL : item;
+}
+
+
+/**
+ * Remove an item from the slotmap.
+ * 
+ * @param sm   Pointer to the slot map
+ * @param id   Item ID to remove
+ */
+void sm_remove_item(Slotmap* sm, sm_item_id id)
+{
+    SMItem* item = sm_get_item(sm, id);
+    item->id = (item->id & 0xFFFFFFFF) | (((item->id >> 32) + 1) << 32);
+    id = id & 0xFFFFFFFF;
+    stack_push(&sm->free_stack, &id);
 }
 
 

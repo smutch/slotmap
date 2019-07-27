@@ -43,8 +43,9 @@ typedef struct slotmap {
 } Slotmap;
 
 Slotmap sm_new(void);
-sm_item_id sm_create_item(Slotmap* sm);
+SMItem* sm_create_item(Slotmap* sm);
 SMItem* sm_get_item(Slotmap* sm, sm_item_id id);
+void sm_remove_item(Slotmap* sm, sm_item_id id);
 void sm_destroy(Slotmap* sm);
 
 #endif

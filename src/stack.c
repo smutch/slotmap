@@ -89,7 +89,7 @@ int stack_push(Stack* st, void* item)
  * 
  * @returns       Pointer to the popped item which should be dereferenced
  *                or memcpy'd IMMEDIATELY by the user as the validity of the pointer can
- *                no longer be gauranteed after any other stack methos is called.
+ *                no longer be gauranteed after any other stack methods are called.
  */
 void* stack_pop(Stack* st)
 {
