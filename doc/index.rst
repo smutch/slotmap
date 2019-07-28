@@ -12,8 +12,17 @@ The chances that you will want to use this code without modification is slim.  A
 As part of this implementation, a simple :doc:`stack <stack>` data structure is also provided which may be useful on its own in some cases.
 
 
-Contents
-========
+Documentation
+=============
+
+.. toctree::
+   :maxdepth: 2
+
+   documentation
+
+
+API
+===
 
 .. toctree::
    :maxdepth: 2
