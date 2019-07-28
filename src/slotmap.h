@@ -32,11 +32,22 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 typedef long long sm_item_id;
 
+/**
+ * The item structure.
+ *
+ * @note This is the structure you will want to modify to hold your data.
+ */
 typedef struct item {
+    /** A unique ID to address and identify the item. */
     sm_item_id id;
+    /** A data value. **The rest of this structure should be populated with
+     * your data.** */
     double value;
 } SMItem;
 
+/**
+ * The slotmap structure.
+ */
 typedef struct slotmap {
     Stack free_stack;
     Stack chunk_stack; 
